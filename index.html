@@ -1,118 +1,146 @@
-          <!DOCTYPE html>
-<html lang="en">
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StayDost Islamabad - Hotel & Guest House Booking</title>
+    <title>StayDost Islamabad - Luxury Hotels & Guest Houses</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 500: '#f59e0b', 600: '#d97706' }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans min-h-screen pb-12">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen pb-16 selection:bg-amber-500 selection:text-slate-950">
 
-    <!-- Header -->
-    <header class="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 z-50 shadow-md">
-        <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <div class="bg-amber-500 text-slate-950 p-2 rounded-lg font-bold">
+    <!-- Header / Navbar -->
+    <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-5xl mx-auto px-4 py-3.5 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-amber-500 to-amber-400 text-slate-950 p-2.5 rounded-xl font-bold shadow-md shadow-amber-500/20">
                     <i class="fa-solid fa-hotel text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-wide text-white">StayDost <span class="text-amber-400 text-sm bg-amber-400/10 px-2 py-0.5 rounded">ISB</span></h1>
-                    <p class="text-xs text-slate-400">Islamabad Guest Houses & Hotels</p>
+                    <h1 class="text-lg font-extrabold tracking-tight text-white flex items-center">
+                        StayDost <span class="text-xs ml-2 bg-amber-500/10 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded-full font-semibold">ISLAMABAD</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">Verified Guest Houses & Luxury Suites</p>
                 </div>
             </div>
-            <button onclick="toggleAdminPanel()" class="bg-slate-700 hover:bg-slate-600 text-amber-400 px-3.5 py-2 rounded-xl text-sm font-medium border border-slate-600 transition flex items-center space-x-1.5 shadow-sm">
+            <button onclick="toggleAdminPanel()" class="bg-slate-800 hover:bg-slate-700 text-amber-400 px-4 py-2 rounded-xl text-sm font-semibold border border-slate-700 transition duration-200 flex items-center space-x-2 shadow-sm">
                 <i class="fa-solid fa-lock text-xs"></i>
-                <span>Admin</span>
+                <span>Admin Dashboard</span>
             </button>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto p-4 space-y-6">
+    <main class="max-w-5xl mx-auto px-4 py-6 space-y-6">
 
-        <!-- Search / Hero Section -->
-        <div class="bg-gradient-to-r from-slate-800 to-slate-800/80 p-5 rounded-2xl border border-slate-700/80 shadow-lg text-center space-y-4">
-            <h2 class="text-xl font-bold text-white">Find Your Perfect Stay in Islamabad</h2>
-            <div class="relative max-w-md mx-auto">
-                <i class="fa-solid fa-search absolute left-4 top-3.5 text-slate-400"></i>
-                <input type="text" id="searchInput" onkeyup="filterHotels()" placeholder="Search by area (e.g. F-7, G-9, Margalla)..." class="w-full bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-sm rounded-xl pl-11 pr-4 py-3 focus:outline-none focus:border-amber-500 transition">
+        <!-- Hero & Search Section -->
+        <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 p-6 rounded-3xl border border-slate-800 shadow-xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="max-w-xl mx-auto text-center space-y-4 relative z-10">
+                <h2 class="text-2xl font-bold tracking-tight text-white">Find Your Perfect Stay in the Capital</h2>
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4.5 top-4 text-slate-400"></i>
+                    <input type="text" id="searchInput" onkeyup="filterHotels()" placeholder="Search by area (e.g. F-7, G-9, Blue Area)..." class="w-full bg-slate-950/80 border border-slate-700/80 text-white placeholder-slate-500 text-sm rounded-2xl pl-12 pr-4 py-3.5 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition shadow-inner">
+                </div>
             </div>
         </div>
 
-        <!-- Admin Panel Modal / Box (Hidden by default) -->
-        <div id="adminPanel" class="hidden bg-slate-800 border border-amber-500/40 p-5 rounded-2xl shadow-xl space-y-4">
-            <div class="flex justify-between items-center border-b border-slate-700 pb-3">
-                <h3 class="text-lg font-bold text-amber-400"><i class="fa-solid fa-sliders mr-2"></i>Admin Dashboard: Add New Property</h3>
-                <button onclick="toggleAdminPanel()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+        <!-- Professional Admin Panel Modal / Box -->
+        <div id="adminPanel" class="hidden bg-slate-900 border border-amber-500/40 p-6 rounded-3xl shadow-2xl space-y-5 animate-fadeIn">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                <div class="flex items-center space-x-2 text-amber-400">
+                    <i class="fa-solid fa-sliders text-lg"></i>
+                    <h3 class="text-lg font-bold">Property Manager & Admin Controls</h3>
+                </div>
+                <button onclick="toggleAdminPanel()" class="text-slate-400 hover:text-white bg-slate-800 p-2 rounded-xl transition"><i class="fa-solid fa-xmark text-base"></i></button>
             </div>
-            <form id="addHotelForm" onsubmit="addNewHotel(event)" class="space-y-3">
+            
+            <form id="addHotelForm" onsubmit="addNewHotel(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-1">Hotel / Room Name</label>
-                    <input type="text" id="hotelName" required placeholder="e.g. Serena Luxury Suite" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Hotel / Room Title</label>
+                    <input type="text" id="hotelName" required placeholder="e.g. Margalla Luxury Suite" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition">
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-1">Location / Area</label>
-                    <input type="text" id="hotelLocation" required placeholder="e.g. F-7/2, Islamabad" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Location / Sector</label>
+                    <input type="text" id="hotelLocation" required placeholder="e.g. F-7/2, Islamabad" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition">
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-1">Price per Night (PKR)</label>
-                    <input type="text" id="hotelPrice" required placeholder="e.g. Rs. 12,000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Rate per Night (PKR)</label>
+                    <input type="text" id="hotelPrice" required placeholder="e.g. Rs. 10,000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition">
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-1">Image URL (Direct Image Link)</label>
-                    <input type="url" id="hotelImage" required placeholder="Paste direct image link here" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Image Link (ImgBB or Web URL)</label>
+                    <input type="text" id="hotelImage" required placeholder="Paste direct image link here" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition">
                 </div>
-                <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-1">Your WhatsApp Number (with country code, e.g. 923001234567)</label>
-                    <input type="text" id="whatsappNumber" required placeholder="923001234567" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Your WhatsApp Number (with country code)</label>
+                    <input type="text" id="whatsappNumber" required placeholder="e.g. 923001234567" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition">
                 </div>
-                <div class="pt-2 flex space-x-3">
-                    <button type="submit" class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2.5 rounded-xl text-sm transition">Add Property</button>
-                    <button type="button" onclick="resetDefaultData()" class="bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30 px-4 py-2.5 rounded-xl text-sm transition">Reset Default</button>
+                <div class="md:col-span-2 pt-2 flex items-center space-x-3">
+                    <button type="submit" class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 px-4 rounded-xl text-sm transition shadow-lg shadow-amber-500/10 flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-circle-plus"></i>
+                        <span>Publish New Property</span>
+                    </button>
+                    <button type="button" onclick="resetDefaultData()" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 px-4 py-3 rounded-xl text-sm font-semibold transition">Reset Defaults</button>
                 </div>
             </form>
         </div>
 
-        <!-- Section Title -->
-        <div class="flex justify-between items-center">
-            <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-door-open text-amber-400 mr-2"></i>Available Rooms</h3>
-            <span id="roomCount" class="text-xs bg-slate-800 border border-slate-700 text-slate-300 px-2.5 py-1 rounded-full font-medium">0 Rooms</span>
+        <!-- Section Header -->
+        <div class="flex justify-between items-center px-1">
+            <h3 class="text-xl font-bold text-white flex items-center">
+                <i class="fa-solid fa-door-open text-amber-500 mr-2.5"></i>Available Rooms & Suites
+            </h3>
+            <span id="roomCount" class="text-xs bg-slate-900 border border-slate-800 text-slate-300 px-3 py-1.5 rounded-full font-bold shadow-sm">0 Rooms Listed</span>
         </div>
 
-        <!-- Hotels Container -->
-        <div id="hotelsList" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <!-- Dynamic Cards will load here -->
+        <!-- Hotels Grid Container -->
+        <div id="hotelsList" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Dynamic Cards Loaded Here -->
         </div>
 
     </main>
 
-    <footer class="text-center text-xs text-slate-500 mt-12 border-t border-slate-800 pt-6">
-        &copy; 2026 StayDost Islamabad. All rights reserved.
+    <!-- Footer -->
+    <footer class="text-center text-xs text-slate-500 mt-16 border-t border-slate-900 pt-6">
+        &copy; 2026 StayDost Islamabad. All rights reserved. Managed Independently.
     </footer>
 
+    <!-- JavaScript Application Logic -->
     <script>
-        // Default initial data if nothing in localStorage
         const defaultHotels = [
             {
-                name: "Serena View Executive",
+                name: "Serena View Executive Suite",
                 location: "F-7/2, Islamabad",
-                price: "Rs. 12,000",
+                price: "Rs. 14,000",
                 image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80",
-                whatsapp: "923001234567"
+                whatsapp: "923408481846"
             },
             {
-                name: "Margalla Residency",
+                name: "Margalla Luxury Residency",
                 location: "F-6/1, Islamabad",
-                price: "Rs. 8,500",
+                price: "Rs. 9,500",
                 image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=800&q=80",
-                whatsapp: "923001234567"
+                whatsapp: "923408481846"
             }
         ];
 
         function getStoredHotels() {
-            const data = localStorage.getItem('staydost_hotels');
+            const data = localStorage.getItem('staydost_hotels_pro');
             if (!data) {
-                localStorage.setItem('staydost_hotels', JSON.stringify(defaultHotels));
+                localStorage.setItem('staydost_hotels_pro', JSON.stringify(defaultHotels));
                 return defaultHotels;
             }
             return JSON.parse(data);
@@ -128,37 +156,44 @@
                 h.location.toLowerCase().includes(filter.toLowerCase())
             );
 
-            document.getElementById('roomCount').innerText = `${filtered.length} Rooms`;
+            document.getElementById('roomCount').innerText = `${filtered.length} Rooms Listed`;
 
             if (filtered.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center py-10 text-slate-400 bg-slate-800/50 rounded-2xl border border-slate-700">No properties found. Open Admin to add one!</div>`;
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-16 text-slate-400 bg-slate-900/40 rounded-3xl border border-slate-800 space-y-3">
+                        <i class="fa-solid fa-box-open text-4xl text-slate-600"></i>
+                        <p class="text-sm font-medium">No properties found matching your search.</p>
+                    </div>`;
                 return;
             }
 
             filtered.forEach((hotel, index) => {
-                const waNumber = hotel.whatsapp || "923001234567";
-                const waMessage = encodeURIComponent(`Hello, I want to book ${hotel.name} located at ${hotel.location} for ${hotel.price}. Please confirm availability.`);
+                const waNumber = hotel.whatsapp || "923408481846";
+                const waMessage = encodeURIComponent(`Hello, I want to book "${hotel.name}" located at ${hotel.location} for ${hotel.price}. Please confirm availability.`);
                 const waLink = `https://wa.me/${waNumber}?text=${waMessage}`;
 
                 const card = `
-                    <div class="bg-slate-800 border border-slate-700/80 rounded-2xl overflow-hidden shadow-lg hover:border-amber-500/50 transition duration-300 flex flex-col justify-between">
+                    <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-xl hover:border-amber-500/40 transition duration-300 flex flex-col justify-between group">
                         <div>
-                            <div class="relative h-48 overflow-hidden bg-slate-900">
-                                <img src="${hotel.image}" alt="${hotel.name}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
-                                <span class="absolute top-3 right-3 bg-slate-950/80 backdrop-blur-md text-amber-400 font-bold px-3 py-1 rounded-xl text-sm border border-slate-700 shadow">${hotel.price}</span>
+                            <div class="relative h-52 overflow-hidden bg-slate-950">
+                                <img src="${hotel.image}" alt="${hotel.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=800&q=80'">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
+                                <span class="absolute top-3.5 right-3.5 bg-slate-950/90 backdrop-blur-md text-amber-400 font-extrabold px-3.5 py-1.5 rounded-2xl text-xs border border-slate-700/80 shadow-lg">${hotel.price}</span>
                             </div>
-                            <div class="p-4 space-y-2">
-                                <h4 class="font-bold text-lg text-white">${hotel.name}</h4>
-                                <p class="text-xs text-slate-400 flex items-center"><i class="fa-solid fa-location-dot text-amber-500 mr-1.5"></i>${hotel.location}</p>
+                            <div class="p-5 space-y-2">
+                                <h4 class="font-bold text-lg text-white tracking-tight">${hotel.name}</h4>
+                                <p class="text-xs text-slate-400 flex items-center">
+                                    <i class="fa-solid fa-location-dot text-amber-500 mr-2"></i>${hotel.location}
+                                </p>
                             </div>
                         </div>
-                        <div class="p-4 pt-0 flex space-x-2">
-                            <a href="${waLink}" target="_blank" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-4 rounded-xl text-sm text-center transition flex items-center justify-center space-x-2 shadow-sm">
-                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <div class="p-5 pt-0 flex items-center space-x-2.5">
+                            <a href="${waLink}" target="_blank" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-2xl text-xs text-center transition flex items-center justify-center space-x-2 shadow-lg shadow-emerald-600/10">
+                                <i class="fa-brands fa-whatsapp text-base"></i>
                                 <span>Book Now</span>
                             </a>
-                            <button onclick="deleteHotel(${index})" class="bg-slate-700 hover:bg-red-600/20 hover:text-red-400 text-slate-400 px-3 py-2.5 rounded-xl text-sm transition border border-slate-600" title="Delete Property">
-                                <i class="fa-solid fa-trash"></i>
+                            <button onclick="deleteHotel(${index})" class="bg-slate-800 hover:bg-red-500/20 hover:text-red-400 hover:border-red-500/30 text-slate-400 p-3 rounded-2xl text-xs transition border border-slate-700" title="Delete Property">
+                                <i class="fa-solid fa-trash text-sm"></i>
                             </button>
                         </div>
                     </div>
@@ -170,38 +205,41 @@
         function toggleAdminPanel() {
             const panel = document.getElementById('adminPanel');
             panel.classList.toggle('hidden');
+            if(!panel.classList.contains('hidden')) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
 
         function addNewHotel(e) {
             e.preventDefault();
-            const name = document.getElementById('hotelName').value;
-            const location = document.getElementById('hotelLocation').value;
-            const price = document.getElementById('hotelPrice').value;
-            const image = document.getElementById('hotelImage').value;
-            const whatsapp = document.getElementById('whatsappNumber').value;
+            const name = document.getElementById('hotelName').value.trim();
+            const location = document.getElementById('hotelLocation').value.trim();
+            const price = document.getElementById('hotelPrice').value.trim();
+            const image = document.getElementById('hotelImage').value.trim();
+            const whatsapp = document.getElementById('whatsappNumber').value.trim();
 
             const newHotel = { name, location, price, image, whatsapp };
             const hotels = getStoredHotels();
-            hotels.unshift(newHotel); // Add to top
+            hotels.unshift(newHotel);
 
-            localStorage.setItem('staydost_hotels', JSON.stringify(hotels));
+            localStorage.setItem('staydost_hotels_pro', JSON.stringify(hotels));
             document.getElementById('addHotelForm').reset();
             toggleAdminPanel();
             renderHotels();
         }
 
         function deleteHotel(index) {
-            if (confirm('Are you sure you want to delete this property?')) {
+            if (confirm('Are you sure you want to delete this property listing?')) {
                 const hotels = getStoredHotels();
                 hotels.splice(index, 1);
-                localStorage.setItem('staydost_hotels', JSON.stringify(hotels));
+                localStorage.setItem('staydost_hotels_pro', JSON.stringify(hotels));
                 renderHotels();
             }
         }
 
         function resetDefaultData() {
-            if (confirm('Reset to default rooms?')) {
-                localStorage.setItem('staydost_hotels', JSON.stringify(defaultHotels));
+            if (confirm('Reset to default sample rooms?')) {
+                localStorage.setItem('staydost_hotels_pro', JSON.stringify(defaultHotels));
                 renderHotels();
             }
         }
@@ -211,9 +249,7 @@
             renderHotels(query);
         }
 
-        // Initial Load
         renderHotels();
     </script>
 </body>
 </html>
-         
