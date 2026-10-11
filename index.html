@@ -1,131 +1,219 @@
-<!DOCTYPE html>
+          <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StayDost Islamabad</title>
+    <title>StayDost Islamabad - Hotel & Guest House Booking</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .gold-bg { background-color: #D4AF37; }
-        .gold-text { color: #D4AF37; }
-        .navy-bg { background-color: #0A192F; }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-slate-50 font-sans pb-12">
-    <nav class="navy-bg text-white p-4 sticky top-0 z-50 shadow-md">
-        <div class="max-w-xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold flex items-center gap-2">
-                <i class="fa-solid font-bold fa-hotel gold-text"></i> StayDost <span class="text-xs gold-bg text-black px-2 py-0.5 rounded font-semibold">ISB</span>
-            </h1>
-            <button onclick="toggleAdmin()" class="bg-slate-800 hover:bg-slate-700 text-xs px-3 py-1.5 rounded border border-slate-600 gold-text">
-                <i class="fa-solid fa-user-gear mr-1"></i> Admin
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen pb-12">
+
+    <!-- Header -->
+    <header class="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 z-50 shadow-md">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="bg-amber-500 text-slate-950 p-2 rounded-lg font-bold">
+                    <i class="fa-solid fa-hotel text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wide text-white">StayDost <span class="text-amber-400 text-sm bg-amber-400/10 px-2 py-0.5 rounded">ISB</span></h1>
+                    <p class="text-xs text-slate-400">Islamabad Guest Houses & Hotels</p>
+                </div>
+            </div>
+            <button onclick="toggleAdminPanel()" class="bg-slate-700 hover:bg-slate-600 text-amber-400 px-3.5 py-2 rounded-xl text-sm font-medium border border-slate-600 transition flex items-center space-x-1.5 shadow-sm">
+                <i class="fa-solid fa-lock text-xs"></i>
+                <span>Admin</span>
             </button>
         </div>
-    </nav>
+    </header>
 
-    <div class="max-w-xl mx-auto p-4">
-        <div class="navy-bg text-white rounded-2xl p-6 mb-6 shadow-xl relative overflow-hidden">
-            <h2 class="text-2xl font-bold mb-1">Find Hotels in Islamabad</h2>
-            <p class="text-xs text-slate-300 mb-4">Book verified stays with local support</p>
-            <div class="space-y-3">
-                <input type="text" id="searchInput" placeholder="Search Sector (e.g. F-7, F-8, Blue Area)" class="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-yellow-500">
-                <button onclick="renderHotels()" class="w-full gold-bg text-slate-900 font-bold p-3 rounded-lg text-sm hover:opacity-90">Search Hotels</button>
+    <main class="max-w-4xl mx-auto p-4 space-y-6">
+
+        <!-- Search / Hero Section -->
+        <div class="bg-gradient-to-r from-slate-800 to-slate-800/80 p-5 rounded-2xl border border-slate-700/80 shadow-lg text-center space-y-4">
+            <h2 class="text-xl font-bold text-white">Find Your Perfect Stay in Islamabad</h2>
+            <div class="relative max-w-md mx-auto">
+                <i class="fa-solid fa-search absolute left-4 top-3.5 text-slate-400"></i>
+                <input type="text" id="searchInput" onkeyup="filterHotels()" placeholder="Search by area (e.g. F-7, G-9, Margalla)..." class="w-full bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-sm rounded-xl pl-11 pr-4 py-3 focus:outline-none focus:border-amber-500 transition">
             </div>
         </div>
 
-        <div id="adminPanel" class="hidden bg-white p-5 rounded-2xl shadow-lg border border-slate-200 mb-6">
-            <h3 class="font-bold text-lg navy-bg text-white p-3 rounded-xl mb-4 flex justify-between items-center">
-                <span>Admin Dashboard</span>
-                <span class="text-xs gold-text">Live Controls</span>
-            </h3>
-            <form onsubmit="addHotel(event)" class="space-y-3 mb-6">
-                <p class="text-xs font-semibold text-slate-600">Add / Update Room Listing</p>
-                <input type="text" id="hName" placeholder="Hotel Name" class="w-full p-2.5 border rounded-lg text-sm" required>
-                <input type="text" id="hArea" placeholder="Area (e.g. F-7/2)" class="w-full p-2.5 border rounded-lg text-sm" required>
-                <input type="number" id="hPrice" placeholder="Price per Night (PKR)" class="w-full p-2.5 border rounded-lg text-sm" required>
-                <input type="url" id="hImg" placeholder="Room Photo URL (Image Link)" class="w-full p-2.5 border rounded-lg text-sm" required>
-                <button type="submit" class="w-full navy-bg text-white py-2.5 rounded-lg text-sm font-bold">Add / Update Hotel</button>
+        <!-- Admin Panel Modal / Box (Hidden by default) -->
+        <div id="adminPanel" class="hidden bg-slate-800 border border-amber-500/40 p-5 rounded-2xl shadow-xl space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-700 pb-3">
+                <h3 class="text-lg font-bold text-amber-400"><i class="fa-solid fa-sliders mr-2"></i>Admin Dashboard: Add New Property</h3>
+                <button onclick="toggleAdminPanel()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form id="addHotelForm" onsubmit="addNewHotel(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Hotel / Room Name</label>
+                    <input type="text" id="hotelName" required placeholder="e.g. Serena Luxury Suite" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Location / Area</label>
+                    <input type="text" id="hotelLocation" required placeholder="e.g. F-7/2, Islamabad" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Price per Night (PKR)</label>
+                    <input type="text" id="hotelPrice" required placeholder="e.g. Rs. 12,000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Image URL (Direct Image Link)</label>
+                    <input type="url" id="hotelImage" required placeholder="Paste direct image link here" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Your WhatsApp Number (with country code, e.g. 923001234567)</label>
+                    <input type="text" id="whatsappNumber" required placeholder="923001234567" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div class="pt-2 flex space-x-3">
+                    <button type="submit" class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2.5 rounded-xl text-sm transition">Add Property</button>
+                    <button type="button" onclick="resetDefaultData()" class="bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30 px-4 py-2.5 rounded-xl text-sm transition">Reset Default</button>
+                </div>
             </form>
-            <div class="border-t pt-4">
-                <h4 class="font-bold text-sm mb-2">Booking Requests</h4>
-                <div id="requestsList" class="space-y-2 text-xs text-slate-600">No pending requests.</div>
-            </div>
         </div>
 
-        <h3 class="font-bold text-slate-800 text-lg mb-4">Available Rooms</h3>
-        <div id="hotelList" class="space-y-4"></div>
-    </div>
+        <!-- Section Title -->
+        <div class="flex justify-between items-center">
+            <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-door-open text-amber-400 mr-2"></i>Available Rooms</h3>
+            <span id="roomCount" class="text-xs bg-slate-800 border border-slate-700 text-slate-300 px-2.5 py-1 rounded-full font-medium">0 Rooms</span>
+        </div>
+
+        <!-- Hotels Container -->
+        <div id="hotelsList" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Dynamic Cards will load here -->
+        </div>
+
+    </main>
+
+    <footer class="text-center text-xs text-slate-500 mt-12 border-t border-slate-800 pt-6">
+        &copy; 2026 StayDost Islamabad. All rights reserved.
+    </footer>
 
     <script>
-        let hotels = JSON.parse(localStorage.getItem('sd_hotels')) || [
-            { id: 1, name: "Serena View Executive", area: "F-7/2, Islamabad", price: 12000, img: "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=500" },
-            { id: 2, name: "Margalla Residency", area: "F-8/3, Islamabad", price: 8500, img: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=500" }
+        // Default initial data if nothing in localStorage
+        const defaultHotels = [
+            {
+                name: "Serena View Executive",
+                location: "F-7/2, Islamabad",
+                price: "Rs. 12,000",
+                image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80",
+                whatsapp: "923001234567"
+            },
+            {
+                name: "Margalla Residency",
+                location: "F-6/1, Islamabad",
+                price: "Rs. 8,500",
+                image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=800&q=80",
+                whatsapp: "923001234567"
+            }
         ];
-        let requests = JSON.parse(localStorage.getItem('sd_reqs')) || [];
 
-        function save() {
-            localStorage.setItem('sd_hotels', JSON.stringify(hotels));
-            localStorage.setItem('sd_reqs', JSON.stringify(requests));
+        function getStoredHotels() {
+            const data = localStorage.getItem('staydost_hotels');
+            if (!data) {
+                localStorage.setItem('staydost_hotels', JSON.stringify(defaultHotels));
+                return defaultHotels;
+            }
+            return JSON.parse(data);
         }
 
-        function renderHotels() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const list = document.getElementById('hotelList');
-            list.innerHTML = '';
-            hotels.filter(h => h.name.toLowerCase().includes(query) || h.area.toLowerCase().includes(query)).forEach(h => {
-                list.innerHTML += `
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-slate-100">
-                        <img src="${h.img}" class="w-full h-44 object-cover">
-                        <div class="p-4">
-                            <div class="flex justify-between items-start mb-2">
-                                <div>
-                                    <h4 class="font-bold text-slate-800 text-base">${h.name}</h4>
-                                    <p class="text-xs text-slate-500"><i class="fa-solid fa-location-dot gold-text mr-1"></i>${h.area}</p>
-                                </div>
-                                <span class="navy-bg text-white text-xs font-bold px-2.5 py-1 rounded-full">Rs. ${h.price.toLocaleString()}</span>
+        function renderHotels(filter = '') {
+            const hotels = getStoredHotels();
+            const container = document.getElementById('hotelsList');
+            container.innerHTML = '';
+            
+            const filtered = hotels.filter(h => 
+                h.name.toLowerCase().includes(filter.toLowerCase()) || 
+                h.location.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            document.getElementById('roomCount').innerText = `${filtered.length} Rooms`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-10 text-slate-400 bg-slate-800/50 rounded-2xl border border-slate-700">No properties found. Open Admin to add one!</div>`;
+                return;
+            }
+
+            filtered.forEach((hotel, index) => {
+                const waNumber = hotel.whatsapp || "923001234567";
+                const waMessage = encodeURIComponent(`Hello, I want to book ${hotel.name} located at ${hotel.location} for ${hotel.price}. Please confirm availability.`);
+                const waLink = `https://wa.me/${waNumber}?text=${waMessage}`;
+
+                const card = `
+                    <div class="bg-slate-800 border border-slate-700/80 rounded-2xl overflow-hidden shadow-lg hover:border-amber-500/50 transition duration-300 flex flex-col justify-between">
+                        <div>
+                            <div class="relative h-48 overflow-hidden bg-slate-900">
+                                <img src="${hotel.image}" alt="${hotel.name}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                                <span class="absolute top-3 right-3 bg-slate-950/80 backdrop-blur-md text-amber-400 font-bold px-3 py-1 rounded-xl text-sm border border-slate-700 shadow">${hotel.price}</span>
                             </div>
-                            <button onclick="bookRoom('${h.name}')" class="w-full mt-2 gold-bg text-slate-900 font-bold py-2 rounded-lg text-xs hover:opacity-90">Book Now</button>
+                            <div class="p-4 space-y-2">
+                                <h4 class="font-bold text-lg text-white">${hotel.name}</h4>
+                                <p class="text-xs text-slate-400 flex items-center"><i class="fa-solid fa-location-dot text-amber-500 mr-1.5"></i>${hotel.location}</p>
+                            </div>
                         </div>
-                    </div>`;
+                        <div class="p-4 pt-0 flex space-x-2">
+                            <a href="${waLink}" target="_blank" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-4 rounded-xl text-sm text-center transition flex items-center justify-center space-x-2 shadow-sm">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                <span>Book Now</span>
+                            </a>
+                            <button onclick="deleteHotel(${index})" class="bg-slate-700 hover:bg-red-600/20 hover:text-red-400 text-slate-400 px-3 py-2.5 rounded-xl text-sm transition border border-slate-600" title="Delete Property">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
             });
         }
 
-        function toggleAdmin() {
-            document.getElementById('adminPanel').classList.toggle('hidden');
-            renderReqs();
+        function toggleAdminPanel() {
+            const panel = document.getElementById('adminPanel');
+            panel.classList.toggle('hidden');
         }
 
-        function addHotel(e) {
+        function addNewHotel(e) {
             e.preventDefault();
-            hotels.push({
-                id: Date.now(),
-                name: document.getElementById('hName').value,
-                area: document.getElementById('hArea').value,
-                price: Number(document.getElementById('hPrice').value),
-                img: document.getElementById('hImg').value
-            });
-            save(); renderHotels();
-            e.target.reset();
-            alert('Hotel added successfully!');
+            const name = document.getElementById('hotelName').value;
+            const location = document.getElementById('hotelLocation').value;
+            const price = document.getElementById('hotelPrice').value;
+            const image = document.getElementById('hotelImage').value;
+            const whatsapp = document.getElementById('whatsappNumber').value;
+
+            const newHotel = { name, location, price, image, whatsapp };
+            const hotels = getStoredHotels();
+            hotels.unshift(newHotel); // Add to top
+
+            localStorage.setItem('staydost_hotels', JSON.stringify(hotels));
+            document.getElementById('addHotelForm').reset();
+            toggleAdminPanel();
+            renderHotels();
         }
 
-        function bookRoom(name) {
-            const phone = prompt("Enter your Mobile Number for Booking:");
-            if(phone) {
-                requests.push({ name, phone, date: new Date().toLocaleDateString() });
-                save();
-                alert("Booking Request Sent!");
+        function deleteHotel(index) {
+            if (confirm('Are you sure you want to delete this property?')) {
+                const hotels = getStoredHotels();
+                hotels.splice(index, 1);
+                localStorage.setItem('staydost_hotels', JSON.stringify(hotels));
+                renderHotels();
             }
         }
 
-        function renderReqs() {
-            const el = document.getElementById('requestsList');
-            el.innerHTML = requests.length ? requests.map(r => `<div class="p-2 bg-slate-100 rounded flex justify-between"><span>${r.name} - ${r.phone}</span><span class="text-slate-400">${r.date}</span></div>`).join('') : 'No pending requests.';
+        function resetDefaultData() {
+            if (confirm('Reset to default rooms?')) {
+                localStorage.setItem('staydost_hotels', JSON.stringify(defaultHotels));
+                renderHotels();
+            }
         }
 
+        function filterHotels() {
+            const query = document.getElementById('searchInput').value;
+            renderHotels(query);
+        }
+
+        // Initial Load
         renderHotels();
     </script>
 </body>
 </html>
-
+         
